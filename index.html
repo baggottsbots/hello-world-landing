@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- BASE:START (managed by Coding Agent — do not edit) -->
+<base href="/hello-world-landing/">
+<!-- BASE:END -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+
+<!-- SEO Meta Tags -->
+<title>PayMeGPT • Chatbot King | Hello World</title>
+<meta name="description" content="Unlock the simplest chatbot experience on earth. SMS PIN verification demo by the Chatbot King." />
+<meta property="og:title" content="PayMeGPT • Chatbot King | Hello World" />
+<meta property="og:description" content="Unlock the simplest chatbot experience on earth. SMS PIN verification demo by the Chatbot King." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="PayMeGPT • Chatbot King | Hello World" />
+<meta name="twitter:description" content="Unlock the simplest chatbot experience on earth. SMS PIN verification demo by the Chatbot King." />
+<!-- End SEO Meta Tags -->
+<script data-lp-token-hydrate>
+(function(){try{
+  var slug="lp-mq3vb9q8-rdwde";
+  var SK='lp_access_'+slug;
+  var map={access_token:'lp_pw_',allowlist_access_token:'lp_al_',pin_access_token:'lp_pin_',paywall_access_token:'lp_paid_'};
+  var u=new URL(location.href);var found=null;var changed=false;
+  Object.keys(map).forEach(function(p){var v=u.searchParams.get(p);if(v){found=v;try{localStorage.setItem(map[p]+slug,v);}catch(e){}u.searchParams.delete(p);changed=true;}});
+  if(found){try{sessionStorage.setItem(SK,found);}catch(e){}}
+  else{try{if(!sessionStorage.getItem(SK)){var t=localStorage.getItem('lp_pw_'+slug)||localStorage.getItem('lp_al_'+slug)||localStorage.getItem('lp_pin_'+slug)||localStorage.getItem('lp_paid_'+slug);if(t)sessionStorage.setItem(SK,t);}}catch(e){}}
+  if(changed){try{history.replaceState(null,'',u.toString());}catch(e){}}
+  function getTok(){try{return sessionStorage.getItem(SK)||localStorage.getItem('lp_pw_'+slug)||localStorage.getItem('lp_al_'+slug)||localStorage.getItem('lp_pin_'+slug)||localStorage.getItem('lp_paid_'+slug);}catch(e){return null;}}
+  function needsToken(url,method){if(!url)return false;var s=String(url);var m=(method||'GET').toUpperCase();var isSheetWrite=(m==='POST'||m==='PATCH'||m==='PUT'||m==='DELETE')&&/\/sheet-rows(\/|$|\?)/.test(s);var isSheetRead=/\/sheet-data(\/|$|\?)/.test(s);var isLlm=/\/api\/landing-pages\/public\/[^/]+\/(llm|llm-config)(\/|$|\?)/.test(s);return isSheetWrite||isSheetRead||isLlm;}
+  if(window.fetch){var _f=window.fetch;window.fetch=function(input,init){try{var url=typeof input==='string'?input:(input&&input.url)||'';var method=(init&&init.method)||(input&&input.method)||'GET';if(needsToken(url,method)){var tok=getTok();if(tok){init=init||{};var h=new Headers(init.headers||(typeof input!=='string'?input.headers:undefined)||{});if(!h.has('X-Landing-Page-Token'))h.set('X-Landing-Page-Token',tok);init.headers=h;}}}catch(e){}return _f.call(this,input,init);};}
+  if(window.XMLHttpRequest){var _o=XMLHttpRequest.prototype.open;var _s=XMLHttpRequest.prototype.send;XMLHttpRequest.prototype.open=function(m,u){this.__lpM=m;this.__lpU=u;return _o.apply(this,arguments);};XMLHttpRequest.prototype.send=function(){try{if(needsToken(this.__lpU,this.__lpM)){var tok=getTok();if(tok)this.setRequestHeader('X-Landing-Page-Token',tok);}}catch(e){}return _s.apply(this,arguments);};}
+}catch(e){}})();
+</script>
+
+<style data-gate>body{visibility:hidden;}</style>
+<script data-gate>
+(function(){
+  var slug='lp-mq3vb9q8-rdwde';var apiBase='https://paymegpt.com';var PIN_TOKEN_KEY='lp_pin_'+slug;var ACCESS_TOKEN_KEY='lp_access_'+slug;var pinPassed=false;
+  var storedToken=localStorage.getItem(PIN_TOKEN_KEY);
+  if(storedToken){try{var b64=storedToken.indexOf('.')>0?storedToken.split('.')[0]:storedToken;var decoded=atob(b64);var parts=decoded.split(':');if(parts[0]==='pin'&&parts.length>=4){var ts=parseInt(parts[parts.length-1]);if(Date.now()-ts<30*24*60*60*1000){pinPassed=true;try{sessionStorage.setItem(ACCESS_TOKEN_KEY,storedToken);}catch(e){}}}}catch(e){}}
+  var urlParams=new URLSearchParams(window.location.search);var pinToken=urlParams.get('pin_access_token');
+  if(pinToken){localStorage.setItem(PIN_TOKEN_KEY,pinToken);try{sessionStorage.setItem(ACCESS_TOKEN_KEY,pinToken);}catch(e){}var url=new URL(window.location.href);url.searchParams.delete('pin_access_token');window.history.replaceState({},'',url.toString());pinPassed=true;}
+  if(pinPassed){document.addEventListener('DOMContentLoaded',function(){document.body.style.visibility='visible';});return;}
+  document.addEventListener('DOMContentLoaded',function(){
+  var currentMethod='sms';var currentIdentifier='';
+  var gateHtml='<div id="pin-gate" style="position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:system-ui,-apple-system,sans-serif;padding:16px;"><div style="background:white;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.15);width:100%;max-width:420px;padding:32px;text-align:center;"><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Identity Verification</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">Please verify your identity to access this page.</p><form id="pin-request-form"><input type="tel" id="pin-identifier" placeholder="Enter your phone number" required style="width:100%;box-sizing:border-box;height:48px;padding:0 16px;background:#fff;color:#111827;-webkit-text-fill-color:#111827;font-size:16px;border:1px solid #d1d5db;border-radius:8px;outline:none;margin-bottom:12px;" /><div id="pin-req-error" style="display:none;color:#ef4444;font-size:14px;margin-bottom:12px;"></div><button type="submit" id="pin-send-btn" style="width:100%;height:48px;font-size:16px;font-weight:600;color:white;border:none;border-radius:8px;cursor:pointer;background:#2563eb;">Send Verification Code</button></form><form id="pin-verify-form" style="display:none;"><p id="pin-sent-msg" style="font-size:14px;color:#6b7280;margin-bottom:12px;"></p><input type="text" id="pin-code" placeholder="Enter 6-digit PIN" maxlength="6" style="width:100%;box-sizing:border-box;height:48px;padding:0 16px;background:#fff;color:#111827;-webkit-text-fill-color:#111827;font-size:20px;text-align:center;letter-spacing:8px;font-family:monospace;border:1px solid #d1d5db;border-radius:8px;outline:none;margin-bottom:12px;" required /><div id="pin-ver-error" style="display:none;color:#ef4444;font-size:14px;margin-bottom:12px;"></div><button type="submit" id="pin-verify-btn" style="width:100%;height:48px;font-size:16px;font-weight:600;color:white;border:none;border-radius:8px;cursor:pointer;background:#2563eb;">Verify PIN</button><button type="button" id="pin-resend-btn" style="width:100%;margin-top:8px;padding:8px;background:none;border:none;color:#6b7280;cursor:pointer;font-size:14px;">Resend PIN</button><button type="button" id="pin-back-btn" style="width:100%;padding:8px;background:none;border:none;color:#9ca3af;cursor:pointer;font-size:14px;">Use different contact</button></form></div></div>';
+  document.body.insertAdjacentHTML('beforeend',gateHtml);document.body.style.visibility='visible';
+  var reqForm=document.getElementById('pin-request-form');var verForm=document.getElementById('pin-verify-form');var idInput=document.getElementById('pin-identifier');var codeInput=document.getElementById('pin-code');var sendBtn=document.getElementById('pin-send-btn');var verifyBtn=document.getElementById('pin-verify-btn');var reqError=document.getElementById('pin-req-error');var verError=document.getElementById('pin-ver-error');var sentMsg=document.getElementById('pin-sent-msg');
+  
+  function sendPin(){var id=idInput.value.trim();if(!id)return;sendBtn.disabled=true;sendBtn.textContent='Sending...';reqError.style.display='none';var body=currentMethod==='sms'?{phone:id}:{email:id};fetch(apiBase+'/api/landing-pages/public/'+slug+'/generate-pin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json();}).then(function(d){if(d.success){currentIdentifier=id;reqForm.style.display='none';verForm.style.display='block';sentMsg.textContent='We sent a 6-digit PIN to '+id;codeInput.focus();}else{reqError.textContent=d.message||'Failed to send PIN';reqError.style.display='block';}}).catch(function(){reqError.textContent='Failed to send PIN';reqError.style.display='block';}).finally(function(){sendBtn.disabled=false;sendBtn.textContent='Send Verification Code';});}
+  function verifyPin(){var pin=codeInput.value.trim();if(!pin||pin.length!==6){verError.textContent='Please enter the 6-digit PIN';verError.style.display='block';return;}verifyBtn.disabled=true;verifyBtn.textContent='Verifying...';verError.style.display='none';var body=currentMethod==='sms'?{phone:currentIdentifier,pin:pin}:{email:currentIdentifier,pin:pin};fetch(apiBase+'/api/landing-pages/public/'+slug+'/verify-pin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json();}).then(function(d){if(d.verified){localStorage.setItem(PIN_TOKEN_KEY,d.accessToken);try{sessionStorage.setItem('lp_access_'+slug,d.accessToken);}catch(e){}window.location.reload();}else{verError.textContent=d.message||'Invalid PIN code';verError.style.display='block';}}).catch(function(){verError.textContent='Failed to verify PIN';verError.style.display='block';}).finally(function(){verifyBtn.disabled=false;verifyBtn.textContent='Verify PIN';});}
+  reqForm.addEventListener('submit',function(e){e.preventDefault();sendPin();});verForm.addEventListener('submit',function(e){e.preventDefault();verifyPin();});document.getElementById('pin-resend-btn').addEventListener('click',sendPin);document.getElementById('pin-back-btn').addEventListener('click',function(){verForm.style.display='none';reqForm.style.display='block';codeInput.value='';verError.style.display='none';});codeInput.addEventListener('input',function(e){e.target.value=e.target.value.replace(/[^0-9]/g,'').slice(0,6);});idInput.focus();
+  });
+})();
+</script>
+<script data-field-replace>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var fields={};
+  var paramMap={
+    'first_name':'firstName','last_name':'lastName','full_name':'fullName',
+    'email':'email','phone':'phone','company':'company',
+    'city':'city','state':'state','country':'country'
+  };
+  var skipTags={'SCRIPT':1,'STYLE':1,'NOSCRIPT':1,'TEXTAREA':1,'CODE':1,'PRE':1};
+  var hasUrlFields=false;
+  for(var p in paramMap){
+    var v=params.get(p);
+    if(v){fields[paramMap[p]]=v;hasUrlFields=true;}
+  }
+  var contactId=params.get('contact_id');
+  function esc(s){
+    if(!s)return s;
+    var d=document.createElement('div');
+    d.appendChild(document.createTextNode(s));
+    return d.innerHTML;
+  }
+  function doReplace(data){
+    var r={};
+    r['{{full_name}}']=esc(((data.firstName||'')+' '+(data.lastName||'')).trim()||((data.fullName||data.name)||''));
+    r['{{first_name}}']=esc(data.firstName||(data.name?data.name.split(' ')[0]:'')||'');
+    r['{{last_name}}']=esc(data.lastName||(data.name&&data.name.indexOf(' ')>-1?data.name.substring(data.name.indexOf(' ')+1):'')||'');
+    r['{{email}}']=esc(data.email||'');
+    r['{{phone}}']=esc(data.phone||'');
+    r['{{company}}']=esc(data.company||'');
+    r['{{city}}']=esc(data.city||'');
+    r['{{state}}']=esc(data.state||'');
+    r['{{country}}']=esc(data.country||'');
+    r['{{date}}']=new Date().toLocaleDateString();
+    r['{{time}}']=new Date().toLocaleTimeString();
+    r['{{location}}']=[data.city,data.state,data.country].filter(Boolean).join(', ');
+    r['{{tracking_id}}']=esc(data.trackingId||'');
+    r['{{lastClickedProduct}}']=esc(data.lastClickedProduct||'');
+    r['{{lastProductClickDate}}']=esc(data.lastProductClickDate||'');
+    r['{{lastClickedProductPrice}}']=esc(data.lastClickedProductPrice||'');
+    r['{{lastClickedProductURL}}']=esc(data.lastClickedProductURL||'');
+    r['{{productsClickedCount}}']=esc(data.productsClickedCount||'0');
+    r['{{ip_address}}']=esc(data.ipAddress||'');
+    r['{{ip}}']=esc(data.ipAddress||'');
+    if(data.customFields){
+      for(var k in data.customFields){
+        r['{{'+k+'}}']=esc(String(data.customFields[k]||''));
+      }
+    }
+    params.forEach(function(v,k){
+      if(!paramMap[k]&&k!=='contact_id'&&k!=='page_id'&&k.indexOf('utm_')!==0){
+        r['{{'+k+'}}']=esc(v);
+      }
+    });
+    var hasValues=false;
+    for(var key in r){if(r[key]){hasValues=true;break;}}
+    if(!hasValues)return;
+    var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        var p=n.parentNode;
+        if(p&&skipTags[p.nodeName])return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var node;
+    while(node=walker.nextNode()){
+      var txt=node.nodeValue;
+      if(txt&&txt.indexOf('{{')>-1){
+        var changed=txt;
+        for(var ph in r){
+          if(r[ph]&&changed.indexOf(ph)>-1){
+            changed=changed.split(ph).join(r[ph]);
+          }
+        }
+        if(changed!==txt)node.nodeValue=changed;
+      }
+    }
+    var attrs=['value','placeholder','content','alt','title'];
+    attrs.forEach(function(attr){
+      var els=document.querySelectorAll('['+attr+'*="{{"]');
+      for(var i=0;i<els.length;i++){
+        var tag=els[i].tagName;
+        if(skipTags[tag])continue;
+        var val=els[i].getAttribute(attr);
+        if(val){
+          var nv=val;
+          for(var ph in r){
+            if(r[ph]&&nv.indexOf(ph)>-1){
+              nv=nv.split(ph).join(r[ph]);
+            }
+          }
+          if(nv!==val)els[i].setAttribute(attr,nv);
+        }
+      }
+    });
+  }
+  function run(){
+    if(contactId){
+      var xhr=new XMLHttpRequest();
+      xhr.open('GET','https://paymegpt.com/api/landing/context/'+encodeURIComponent(contactId)+'?page_id=4613');
+      xhr.onload=function(){
+        if(xhr.status===200){
+          try{
+            var resp=JSON.parse(xhr.responseText);
+            if(resp.success&&resp.contact){
+              var merged=resp.contact;
+              for(var k in fields){merged[k]=fields[k];}
+              doReplace(merged);
+              return;
+            }
+          }catch(e){}
+        }
+        if(hasUrlFields)doReplace(fields);
+      };
+      xhr.onerror=function(){if(hasUrlFields)doReplace(fields);};
+      xhr.send();
+    }else if(hasUrlFields){
+      doReplace(fields);
+    }
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}
+  else{run();}
+})();
+</script>
+<script data-payment>
+(function(){
+  var slug='yvP5pgsniy';
+  var apiBase='https://paymegpt.com';
+  var successSubtext='';var successBtnLabel='Continue';var successBtnColor='#16a34a';var successRedirect='';
+  function findEmail(){
+    var ids=['email','emailAddress','buyer-email','buyerEmail','user-email','userEmail','checkout-email','customer-email','contact-email'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value&&el.value.includes('@'))return el.value.trim();}
+    var inputs=document.querySelectorAll('input[type="email"],input[name*="email"],input[placeholder*="email"],input[placeholder*="Email"]');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value&&inputs[j].value.includes('@'))return inputs[j].value.trim();}
+    return '';
+  }
+  function findName(){
+    var ids=['name','fullName','full-name','buyer-name','buyerName','customer-name','userName','user-name'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value)return el.value.trim();}
+    var inputs=document.querySelectorAll('input[name*="name"]:not([name*="email"]):not([type="email"]),input[placeholder*="name"]:not([placeholder*="email"]):not([type="email"]),input[placeholder*="Name"]:not([type="email"])');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value)return inputs[j].value.trim();}
+    return '';
+  }
+  var __realProcessPayment=function(a,b,c,d,e){
+    var amountCents,email,productName,productDescription,customerName,quantity;
+    if(a&&typeof a==='object'){
+      amountCents=a.amountCents;email=a.email;productName=a.productName;
+      productDescription=a.productDescription||'';customerName=a.name||'';quantity=a.quantity||1;
+    }else{
+      amountCents=typeof a==='number'?a:0;productName=typeof b==='string'?b:'';
+      productDescription=typeof c==='string'?c:'';email='';customerName='';quantity=1;
+    }
+    if(!email)email=findEmail();
+    if(!customerName)customerName=findName();
+    if(!productName){alert('Product name is required.');return Promise.reject('no_product_name');}
+    if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
+    if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
+    var successBase=window.location.href.split('?')[0];
+    var __pLoc=(document.documentElement.lang||navigator.language||'en');
+    return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,locale:__pLoc,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+    }).then(function(r){return r.json();}).then(function(d){
+      if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
+      else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
+    });
+  };
+  Object.defineProperty(window,'__processPayment',{value:__realProcessPayment,writable:false,configurable:false});
+  document.addEventListener('DOMContentLoaded',function(){
+    var urlParams=new URLSearchParams(window.location.search);
+    if(urlParams.get('payment')==='success'){
+      var pName=urlParams.get('product')||'your item';
+      var overlay=document.createElement('div');overlay.id='payment-success-overlay';
+      overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:system-ui,-apple-system,sans-serif;';
+      function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+      var subTxt=successSubtext||('Thank you for purchasing '+pName+'.');
+      overlay.innerHTML='<div style="background:white;border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);"><div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Payment Successful!</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">'+esc(subTxt)+'</p><button id="lp-pay-success-btn" style="padding:12px 32px;font-size:16px;font-weight:600;background:'+successBtnColor+';color:white;border:none;border-radius:8px;cursor:pointer;">'+esc(successBtnLabel)+'</button></div>';
+      document.body.appendChild(overlay);
+      var pBtn=document.getElementById('lp-pay-success-btn');
+      if(pBtn){pBtn.addEventListener('click',function(){if(successRedirect){window.location.href=successRedirect;}else{overlay.remove();window.history.replaceState({},'',window.location.pathname);}});}
+    }
+  });
+})();
+</script>  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="tail-container bg-black text-white">
+    <!-- ============================================================================ -->
+    <!-- NAVBAR: Minimal dark navbar with branding and logo                          -->
+    <!-- ============================================================================ -->
+    <nav data-section="navbar" class="border-b border-white/10 bg-black/80 backdrop-blur-md fixed w-full z-50">
+        <div class="max-w-screen-xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div class="w-8 h-8 bg-yellow-400 rounded-2xl flex items-center justify-center text-black font-bold text-xl leading-none pt-0.5">K</div>
+                <div>
+                    <span class="logo-font text-2xl font-semibold tracking-tighter">CHATBOT</span>
+                    <span class="logo-font text-2xl font-semibold tracking-tighter text-yellow-400">KING</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-x-8 text-sm">
+                <a href="#" onclick="showGate()" class="hover:text-yellow-400 transition-colors">Unlock Access</a>
+                <a href="https://paymegpt.com" target="_blank" class="hover:text-yellow-400 transition-colors">PayMeGPT</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================================================ -->
+    <!-- HERO SECTION: Main headline with gate overlay that hides content             -->
+    <!-- ============================================================================ -->
+    <header data-section="hero" class="hero-bg min-h-screen flex items-center pt-16">
+        <div class="max-w-screen-xl mx-auto px-6 py-16 w-full">
+            <!-- GATE OVERLAY -->
+            <div id="gate-overlay" class="gate-container fixed inset-0 bg-black/95 z-50 flex items-center justify-center px-6">
+                <div class="max-w-md w-full bg-zinc-900 border border-white/10 rounded-3xl p-8 shadow-2xl">
+                    <div class="flex justify-center mb-6">
+                        <div class="inline-flex items-center gap-x-2 bg-black text-yellow-400 text-xs font-mono tracking-[2px] px-4 h-7 rounded-3xl border border-yellow-400/30">
+                            <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                            VERIFICATION REQUIRED
+                        </div>
+                    </div>
+                    
+                    <h2 class="text-3xl font-semibold text-center logo-font tracking-tighter mb-2">Hello World</h2>
+                    <p class="text-center text-zinc-400 text-sm mb-8">Enter your phone number and PIN to unlock the full experience</p>
+                    
+                    <!-- PHONE STEP -->
+                    <div id="phone-step">
+                        <label class="block text-xs uppercase tracking-widest text-zinc-500 mb-2">Mobile number</label>
+                        <div class="flex">
+                            <div class="bg-zinc-800 border border-r-0 border-white/10 rounded-l-2xl px-4 flex items-center text-yellow-400 font-medium">+1</div>
+                            <input id="phone-input" 
+                                   type="tel" 
+                                   maxlength="10"
+                                   placeholder="555 867 5309"
+                                   onkeypress="if(event.key === 'Enter') requestPIN()"
+                                   class="flex-1 bg-zinc-800 border border-white/10 focus:border-yellow-400 rounded-r-2xl px-5 py-6 outline-none text-lg placeholder:text-zinc-600">
+                        </div>
+                        
+                        <button onclick="requestPIN()" 
+                                class="mt-6 w-full h-14 bg-white text-black rounded-2xl font-semibold flex items-center justify-center gap-x-2 hover:bg-yellow-300 transition-all active:scale-[0.97]">
+                            <span>SEND PIN</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                        
+                        <p onclick="fakeDemoPhone()" 
+                           class="text-center text-[10px] text-zinc-500 hover:text-zinc-400 cursor-pointer mt-6 transition-colors">
+                            Use demo number: (415) 555-0192
+                        </p>
+                    </div>
+                    
+                    <!-- PIN STEP -->
+                    <div id="pin-step" class="hidden">
+                        <div class="flex justify-between items-baseline mb-3">
+                            <label class="block text-xs uppercase tracking-widest text-zinc-500">Verification code</label>
+                            <button onclick="backToPhone()" 
+                                    class="text-yellow-400 text-xs flex items-center gap-x-1 hover:underline">
+                                <span>←</span>
+                                <span>Change number</span>
+                            </button>
+                        </div>
+                        
+                        <input id="pin-input" 
+                               type="text" 
+                               maxlength="6"
+                               inputmode="numeric"
+                               onkeypress="if(event.key === 'Enter') verifyPIN()"
+                               class="code-input w-full bg-zinc-900 border border-white/10 focus:border-yellow-400 rounded-3xl px-8 py-8 text-center outline-none text-white tracking-[12px]">
+                        
+                        <div class="flex gap-3 mt-6">
+                            <button onclick="verifyPIN()" 
+                                    class="flex-1 h-14 bg-yellow-400 hover:bg-yellow-300 transition-all text-black font-semibold rounded-2xl">
+                                VERIFY
+                            </button>
+                            <button onclick="resendPIN()" 
+                                    class="flex-1 h-14 border border-white/20 hover:border-white/40 transition-all rounded-2xl text-sm">
+                                RESEND
+                            </button>
+                        </div>
+                        
+                        <div id="pin-status" class="text-center text-xs h-5 mt-4 text-emerald-400"></div>
+                    </div>
+                    
+                    <!-- SUCCESS STATE -->
+                    <div id="success-state" class="hidden text-center py-8">
+                        <div class="mx-auto w-16 h-16 bg-emerald-400/10 text-emerald-400 rounded-2xl flex items-center justify-center mb-6 verified">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7" />
+                            </svg>
+                        </div>
+                        <div class="text-2xl font-semibold mb-1">Access Granted</div>
+                        <div class="text-emerald-400 text-sm">Welcome to the inner circle</div>
+                        
+                        <button onclick="hideGate()" 
+                                class="mt-10 w-full bg-white text-black h-14 rounded-2xl font-semibold text-base flex items-center justify-center gap-x-2">
+                            ENTER THE KINGDOM
+                            <span class="text-lg leading-none">→</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-2xl mx-auto text-center pt-12">
+                <div class="inline-flex items-center rounded-3xl bg-white/5 px-5 py-2 text-xs font-medium tracking-widest mb-6 border border-white/10">
+                    <span class="text-emerald-400 mr-2">●</span>
+                    POWERED BY PAYMEGPT
+                </div>
+                
+                <h1 class="text-7xl md:text-8xl font-semibold logo-font tracking-tighter leading-none mb-6">
+                    HELLO<br>WORLD<span class="text-yellow-400">.</span>
+                </h1>
+                
+                <p class="max-w-xs mx-auto text-xl text-zinc-400 mb-10">
+                    The simplest chatbot experience on earth. 
+                    Built by the king of conversational AI.
+                </p>
+                
+                <div onclick="showGate()" 
+                     class="cursor-pointer mx-auto inline-flex items-center justify-center gap-x-3 bg-yellow-400 hover:bg-amber-300 transition-colors text-black font-semibold text-lg px-10 h-16 rounded-3xl">
+                    <span>UNLOCK FULL DEMO</span>
+                    <div class="w-px h-6 bg-black/30"></div>
+                    <span class="text-sm font-normal text-black/70">4 sec</span>
+                </div>
+                
+                <div class="flex items-center justify-center gap-x-8 mt-16 text-xs">
+                    <div class="flex items-center gap-x-2">
+                        <div class="w-3 h-px bg-yellow-400"></div>
+                        <span class="uppercase tracking-widest text-yellow-400">Trusted by 41k</span>
+                    </div>
+                    <div class="h-3 w-px bg-white/20"></div>
+                    <div class="text-zinc-500">Zero setup • Instant access</div>
+                </div>
+            </div>
+            
+            <!-- HIDDEN CONTENT THAT REVEALS AFTER VERIFICATION -->
+            <div id="hidden-content" class="hidden max-w-screen-xl mx-auto mt-24 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="bg-zinc-900/70 border border-white/5 rounded-3xl p-7">
+                    <div class="h-10 w-10 bg-yellow-400/10 text-yellow-400 rounded-2xl flex items-center justify-center mb-6">💬</div>
+                    <h3 class="font-semibold text-xl mb-3">Instant Chat</h3>
+                    <p class="text-zinc-400 text-sm">Talk to the world's most advanced AI in under 200ms. No fluff. Just answers.</p>
+                    <div class="text-[10px] font-mono mt-8 text-yellow-400">01 / 03</div>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="bg-zinc-900/70 border border-white/5 rounded-3xl p-7">
+                    <div class="h-10 w-10 bg-yellow-400/10 text-yellow-400 rounded-2xl flex items-center justify-center mb-6">💸</div>
+                    <h3 class="font-semibold text-xl mb-3">PayMeGPT</h3>
+                    <p class="text-zinc-400 text-sm">Built-in payments. Ask it to invoice, charge, or send money instantly.</p>
+                    <div class="text-[10px] font-mono mt-8 text-yellow-400">02 / 03</div>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="bg-zinc-900/70 border border-white/5 rounded-3xl p-7">
+                    <div class="h-10 w-10 bg-yellow-400/10 text-yellow-400 rounded-2xl flex items-center justify-center mb-6">👑</div>
+                    <h3 class="font-semibold text-xl mb-3">Chatbot King</h3>
+                    <p class="text-zinc-400 text-sm">The undisputed leader in AI voice and chat experiences. Try it now.</p>
+                    <div class="text-[10px] font-mono mt-8 text-yellow-400">03 / 03</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================================================ -->
+    <!-- FINAL CTA: Single minimal CTA at bottom                                      -->
+    <!-- ============================================================================ -->
+    <section data-section="cta" class="bg-black py-20 border-t border-white/10">
+        <div class="max-w-screen-xl mx-auto px-6 text-center">
+            <div class="max-w-xs mx-auto">
+                <p class="text-xs tracking-[1px] text-yellow-300 mb-4">READY TO BUILD YOUR OWN?</p>
+                <button onclick="showGate()" 
+                        class="w-full py-6 rounded-3xl bg-white text-black font-semibold flex items-center justify-center gap-3 group">
+                    <span class="text-xl">GET STARTED FREE</span>
+                    <span class="block group-active:rotate-45 transition-transform">→</span>
+                </button>
+                <p class="text-[10px] text-zinc-500 mt-6">No credit card required • Cancel anytime</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================================ -->
+    <!-- FOOTER: Minimal footer with year and branding                                -->
+    <!-- ============================================================================ -->
+    <footer data-section="footer" class="bg-black border-t border-white/10 py-8">
+        <div class="max-w-screen-xl mx-auto px-6 text-center">
+            <div class="flex items-center justify-center gap-x-6 text-xs text-zinc-500">
+                <a href="#" class="hover:text-white transition-colors">Docs</a>
+                <a href="#" class="hover:text-white transition-colors">API</a>
+                <a href="https://twitter.com/paymegpt" target="_blank" class="hover:text-white transition-colors">𝕏</a>
+            </div>
+            <div class="mt-6 text-[10px] text-zinc-600">
+                © 2026 Chatbot King • PayMeGPT Inc. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    
+  <script src="script.js"></script>
+</body>
+</html>
